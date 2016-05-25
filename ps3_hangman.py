@@ -98,11 +98,12 @@ def getAvailableLetters(lettersGuessed):
 
 # Problem set 3 answer
 def hangman(secretWord):
-    
     # secretWord: string, the secret word to guess.
+    # Set up some empty variable for the function
     guesstime = 0 
     result = ''
     lettersGuessed = []
+    # Set up the max guess times
     if len(secretWord) < 6:
         l = 8
     elif len(secretWord) <10:
@@ -112,35 +113,37 @@ def hangman(secretWord):
     
     '''
     Starts up an interactive game of Hangman.
-    
     * At the start of the game, let the user know how many 
       letters the secretWord contains.
     '''
     print('Welcome to the game, Hangman!')
     print('I am thinking of a word that is '+str(len(secretWord)) + ' letters long.')
+    
     '''
-    * Ask the user to supply one guess (i.e. letter) per round.
+    * Ask the user to supply one guess per round.
     '''
     while guesstime < l:
         print('------------')
         print('You have '+str(l-guesstime) + ' guesses left.')
         
+     	# Tell the user how many letters are available to guess
         availableLetters = getAvailableLetters(lettersGuessed)
-        
         print('Available letters: '+availableLetters)
         
+        # User to input the guessed letter
         guess = raw_input('Please guess a letter: ')
         guessInLowerCase = guess.lower()
+        # Check the input to make sure it is ONE LETTER
         if len(guessInLowerCase) != 1 or guessInLowerCase not in 'abcdefghijklmnopqrstuvwxyz':
             print('Oops! You did not enter a letter')
             continue
-        #get the result of the guess 
         
+        # Get the result of the guess 
         if guessInLowerCase in lettersGuessed:
             result = getGuessedWord(secretWord, lettersGuessed)
             print("Oops! You've already guessed that letter: "+ result)
             continue
-            #TODO: should return to guess a letter
+            
         else:
             lettersGuessed += guessInLowerCase
             result = getGuessedWord(secretWord, lettersGuessed)
@@ -171,5 +174,5 @@ def hangman(secretWord):
 # secretWord while you're testing)
 
 secretWord = chooseWord(wordlist).lower()
-print(secretWord)
+# print(secretWord)    ---- for testing
 hangman(secretWord)
