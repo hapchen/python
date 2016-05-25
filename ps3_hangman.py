@@ -39,6 +39,7 @@ def chooseWord(wordlist):
     Returns a word from wordlist at random
     """
     return random.choice(wordlist)
+    
 
 # end of helper code
 # -----------------------------------
@@ -102,6 +103,13 @@ def hangman(secretWord):
     guesstime = 0 
     result = ''
     lettersGuessed = []
+    if len(secretWord) < 6:
+        l = 8
+    elif len(secretWord) <10:
+        l = 9
+    else:
+        l = 10
+    
     '''
     Starts up an interactive game of Hangman.
     
@@ -113,9 +121,9 @@ def hangman(secretWord):
     '''
     * Ask the user to supply one guess (i.e. letter) per round.
     '''
-    while guesstime < 8:
+    while guesstime < l:
         print('------------')
-        print('You have '+str(8-guesstime) + ' guesses left.')
+        print('You have '+str(l-guesstime) + ' guesses left.')
         
         availableLetters = getAvailableLetters(lettersGuessed)
         
@@ -138,29 +146,19 @@ def hangman(secretWord):
             result = getGuessedWord(secretWord, lettersGuessed)
             if guessInLowerCase in secretWord:
                 print('Good guess: ' + result) 
-                if result == secretWord:
+                if isWordGuessed(secretWord, lettersGuessed) == True:
                     print('------------')
-                    return 'Congratulations, you won!'
+                    print('Congratulations, you won!')
+                    return 
                 continue
             else:
                 print('Oops! That letter is not in my word: ' + result)
-                guesstime += 1
-    
-    if result != secretWord:   
-        print('-----------')
-	return 'Sorry, you ran out of guesses. The word was else.'
-	
-        '''
+                guesstime += 1  
+                if guesstime == l:
+                    print('-----------')
+	            print('Sorry, you ran out of guesses. The word was else.')
+	            return
 
-    * The user should receive feedback immediately after each guess 
-      about whether their guess appears in the computers word.
-
-    * After each round, you should also display to the user the 
-      partially guessed word so far, as well as letters that the 
-      user has not yet guessed.
-
-    Follows the other limitations detailed in the problem write-up.
-    '''
 
 
 
@@ -173,4 +171,5 @@ def hangman(secretWord):
 # secretWord while you're testing)
 
 secretWord = chooseWord(wordlist).lower()
+print(secretWord)
 hangman(secretWord)
